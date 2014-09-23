@@ -1,24 +1,24 @@
 package com.plasmaconduit.convergence.sets
 
-import com.plasmaconduit.convergence.util.CausalItem
+import com.plasmaconduit.convergence.util.{ARCausalPair, CausalItem}
 import com.twitter.algebird.Operators._
 import com.twitter.algebird._
 
-final case class LWWSet[A](map: Map[A, Max[CausalItem[A]]]) {
+final case class LWWSet[A](map: Map[A, ARCausalPair]) {
 
   def insert(causalItem: CausalItem[A]): LWWSet[A] = {
-    LWWSet(map + Map(causalItem.item -> Max(causalItem)))
+    LWWSet(map + Map(causalItem.item -> ARCausalPair.fromAddTime(causalItem.time)))
   }
 
-  def toSet = map.values.map(_.get).map(_.item).toSet
+  def toSet = map.filter(n => n._2.recentAdd).keys.toSet
 
 }
 
 object LWWSet {
 
   def apply[A](items: Seq[CausalItem[A]]): LWWSet[A] = {
-    val map = items.foldLeft(Map[A, Max[CausalItem[A]]]()) {(m, n) =>
-      m + (n.item -> Max(n))
+    val map = items.foldLeft(Map[A, ARCausalPair]()) {(m, n) =>
+      m + (n.item -> ARCausalPair.fromAddTime(n.time))
     }
     LWWSet(map)
   }
@@ -42,7 +42,7 @@ object LWWSet {
   }
 
   class LWWSetMonoid[A](implicit semi: Semigroup[LWWSet[A]]) extends Monoid[LWWSet[A]] {
-    def zero: LWWSet[A] = LWWSet(Map.empty[A, Max[CausalItem[A]]])
+    def zero: LWWSet[A] = LWWSet(Map.empty[A, ARCausalPair])
     def plus(l: LWWSet[A], r: LWWSet[A]): LWWSet[A] = {
       semi.plus(l, r)
     }
@@ -52,3 +52,4 @@ object LWWSet {
   implicit def implicitMonoid[A] = new LWWSetMonoid[A]
 
 }
+

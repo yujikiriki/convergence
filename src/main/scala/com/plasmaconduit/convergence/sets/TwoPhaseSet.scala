@@ -1,6 +1,6 @@
 package com.plasmaconduit.convergence.sets
 
-import com.plasmaconduit.convergence.util.LivenessItem
+import com.plasmaconduit.convergence.util.{Tombstone, Fresh, LivenessItem}
 import com.twitter.algebird.{Monoid, Semigroup}
 
 final case class TwoPhaseSet[A](fresh: Set[A], tombs: Set[A]) {
@@ -55,7 +55,6 @@ object TwoPhaseSet {
   }
 
   implicit def implicitSemigroup[A] = new TwoPhaseSetSemigroup[A]
-
   implicit def implicitMonoid[A] = new TwoPhaseSetMonoid[A]
 
 }
