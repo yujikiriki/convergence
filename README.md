@@ -13,15 +13,11 @@ All Semilattices must obey the following rules:
   - Commutativity: ```x ∧ y = y ∧ x``` 
   - Idempotency: ```x ∧ x = x```
 
-This means that given two or more CRDTs you can merge them in any any order
-with any precedence any amount of times and the results will always
-consistently converge to the same thing. This is a very useful trick to
-manage consistency in distributed systems.
-
-There is a somewhat cannonical paper on CRDTs called A comprehensive study
-of Convergent and Commutative Replicated Data Types. This paper contains the
-the definitions of the two main families of CRDTs (CvRDT vs CmRDT) along with
-the specifications for numerous CRDT counters, registers and sets.
+There is a somewhat cannonical paper on CRDTs called
+[A comprehensive study of Convergent and Commutative Replicated Data Types](http://hal.archives-ouvertes.fr/docs/00/55/55/88/PDF/techreport.pdf).
+This paper contains the the definitions of the two main families of CRDTs
+(CvRDT vs CmRDT) along with the specifications for numerous CRDT counters,
+registers and sets.
 
 The CRDTs
   - Counters
