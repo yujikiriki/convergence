@@ -10,6 +10,10 @@ final case class LWWSet[A](map: Map[A, ARCausalPair]) {
     LWWSet(map + Map(causalItem.item -> ARCausalPair.fromAddTime(causalItem.time)))
   }
 
+  def remove(causalItem: CausalItem[A]): LWWSet[A] = {
+    LWWSet(map + Map(causalItem.item -> ARCausalPair.fromRemoveTime(causalItem.time)))
+  }
+
   def toSet = map.filter(n => n._2.recentAdd).keys.toSet
 
 }
