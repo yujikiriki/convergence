@@ -14,10 +14,6 @@ final case class GSet[A](set: Set[A]) {
 
 object GSet {
 
-  def apply[A](items: Seq[A]) = {
-    GSet(items.toSet)
-  }
-
   def apply[A](items: A*): GSet[A] = {
     GSet(items:_*)
   }
@@ -42,7 +38,7 @@ object GSet {
 
   }
 
-  implicit def semigroupImplicit[A] = new GSetSemigroup[A]
-  implicit def monoidImplicit[A] = new GSetMonoid[A]
+  implicit def gSetSemigroup[A]: Semigroup[GSet[A]] = new GSetSemigroup[A]
+  implicit def gSetMonoid[A]: Monoid[GSet[A]] = new GSetMonoid[A]
 
 }

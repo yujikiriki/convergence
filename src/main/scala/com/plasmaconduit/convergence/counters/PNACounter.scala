@@ -21,17 +21,20 @@ final case class PNACounter(actors: Map[String, PNCounter]) {
 
 object PNACounter {
 
-  implicit object PNACounterSemigroup extends Semigroup[PNACounter] {
+  object PNACounterSemigroup extends Semigroup[PNACounter] {
     def plus(l: PNACounter, r: PNACounter): PNACounter = {
       PNACounter(l.actors + r.actors)
     }
   }
 
-  implicit object PNACounterMonoid extends Monoid[PNACounter] {
+  object PNACounterMonoid extends Monoid[PNACounter] {
     def zero: PNACounter = PNACounter(Map())
     def plus(l: PNACounter, r: PNACounter): PNACounter = {
       PNACounterSemigroup.plus(l, r)
     }
   }
+
+  implicit val pnaCounterSemigroup: Semigroup[PNACounter] = PNACounterSemigroup
+  implicit val pnaCounterMonoid: Monoid[PNACounter] = PNACounterMonoid
 
 }

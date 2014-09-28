@@ -19,6 +19,6 @@ object LWWRegister {
     }
   }
 
-  implicit def implicitSemigroup[A] = new LWWRegisterSemigroup[A]
+  implicit def lwwRegisterSemigroup[A]: Semigroup[LWWRegister[A]] = new LWWRegisterSemigroup[A]
 
 }

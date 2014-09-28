@@ -33,3 +33,12 @@ The CRDTs
     + LWW-element-Set: Last Writer Wins Element Set
     + OR-Set: Observed-Remove Set
     + MC-Set: Max-Change Set
+
+Install
+-------
+
+Add the following to your `Build.scala`
+```
+resolvers += "Plasma Conduit Repository" at "http://dl.bintray.com/plasmaconduit/releases",
+libraryDependencies += "com.plasmaconduit" %% "convergence" % "0.1.0"
+```

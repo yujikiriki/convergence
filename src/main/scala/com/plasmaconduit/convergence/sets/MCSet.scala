@@ -28,10 +28,6 @@ object MCSet {
     MCSet(map)
   }
 
-  def apply[A](items: A*): MCSet[A] = {
-    apply(items:_*)
-  }
-
   class MCSetSemigroup[A] extends Semigroup[MCSet[A]] {
     def plus(l: MCSet[A], r: MCSet[A]): MCSet[A] = {
       MCSet(l.map + r.map)
@@ -40,10 +36,10 @@ object MCSet {
 
   class MCSetMonoid[A](implicit semi: Semigroup[MCSet[A]]) extends Monoid[MCSet[A]] {
     def zero: MCSet[A] = MCSet(Map[A, Max[Long]]())
-    def plus(l: MCSet[A], r: MCSet[A]): MCSet[A] = l + r
+    def plus(l: MCSet[A], r: MCSet[A]): MCSet[A] = semi.plus(l, r)
   }
 
-  implicit def implicitSemigroup[A] = new MCSetSemigroup[A]
-  implicit def implicitMonoid[A] = new MCSetMonoid[A]
+  implicit def mcSetSemigroup[A]: Semigroup[MCSet[A]] = new MCSetSemigroup[A]
+  implicit def mcSetMonoid[A]: Monoid[MCSet[A]] = new MCSetMonoid[A]
 
 }

@@ -25,7 +25,7 @@ object PNCounter {
     PNCounter(GCounter(p), GCounter(n))
   }
 
-  implicit object PNCounterSemigroup extends Semigroup[PNCounter] {
+  object PNCounterSemigroup extends Semigroup[PNCounter] {
     def plus(l: PNCounter, r: PNCounter): PNCounter = {
       PNCounter(l.p + r.p, l.n + l.p)
     }
@@ -36,6 +36,7 @@ object PNCounter {
     def plus(l: PNCounter, r: PNCounter): PNCounter = semi.plus(l, r)
   }
 
-  implicit def implicitMonoid = new PNCounterMonoid
+  implicit val pnCounterSemigroup: Semigroup[PNCounter] = PNCounterSemigroup
+  implicit val pnCounterMonoid: Monoid[PNCounter] = new PNCounterMonoid
 
 }

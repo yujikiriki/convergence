@@ -28,10 +28,6 @@ object TwoPhaseSet {
     TwoPhaseSet(items.toSet, Set[A]())
   }
 
-  def apply[A](items: A*): TwoPhaseSet[A] = {
-    TwoPhaseSet(items:_*)
-  }
-
   class TwoPhaseSetSemigroup[A] extends Semigroup[TwoPhaseSet[A]] {
 
     def plus(l: TwoPhaseSet[A], r: TwoPhaseSet[A]): TwoPhaseSet[A] = {
@@ -54,7 +50,7 @@ object TwoPhaseSet {
 
   }
 
-  implicit def implicitSemigroup[A] = new TwoPhaseSetSemigroup[A]
-  implicit def implicitMonoid[A] = new TwoPhaseSetMonoid[A]
+  implicit def twoPhaseSetSemigroup[A]: Semigroup[TwoPhaseSet[A]] = new TwoPhaseSetSemigroup[A]
+  implicit def twoPhaseSetMonoid[A]: Monoid[TwoPhaseSet[A]] = new TwoPhaseSetMonoid[A]
 
 }

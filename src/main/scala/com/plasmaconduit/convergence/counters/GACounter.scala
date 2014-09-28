@@ -1,7 +1,7 @@
 package com.plasmaconduit.convergence.counters
 
+import com.twitter.algebird._
 import com.twitter.algebird.Operators._
-import com.twitter.algebird.{Monoid, Semigroup}
 
 final case class GACounter(actors: Map[String, GCounter]) {
 
@@ -16,17 +16,20 @@ final case class GACounter(actors: Map[String, GCounter]) {
 
 object GACounter {
 
-  implicit object GACounterSemigroup extends Semigroup[GACounter] {
+  object GACounterSemigroup extends Semigroup[GACounter] {
     def plus(l: GACounter, r: GACounter): GACounter = {
       GACounter(l.actors + r.actors)
     }
   }
 
-  implicit object GACounterMonoid extends Monoid[GACounter] {
+  object GACounterMonoid extends Monoid[GACounter] {
     def zero: GACounter = GACounter(Map())
     def plus(l: GACounter, r: GACounter): GACounter = {
       GACounterSemigroup.plus(l, r)
     }
   }
+
+  implicit val gaCounterSemigroup: Semigroup[GACounter] = GACounterSemigroup
+  implicit val gaCounterMonoid: Monoid[GACounter] = GACounterMonoid
 
 }

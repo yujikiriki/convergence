@@ -28,18 +28,12 @@ final case class ORSet[A](time: CausalTime, fresh: Map[A, Set[CausalTime]], tomb
 
 object ORSet {
 
-  def apply[A](actor: String, items: Seq[A]): ORSet[A] = {
-    items.foldLeft(ORSet[A](CausalTime(actor), Map(), Map())) {(m, n) =>
-      m.insert(n)
-    }
-  }
-
   class ORSetSemigroup[A] extends Semigroup[ORSet[A]] {
     def plus(l: ORSet[A], r: ORSet[A]): ORSet[A] = {
       ORSet(l.time, l.fresh + r.fresh, l.tombs + r.tombs)
     }
   }
 
-  implicit def implicitSemigroup[A] = new ORSetSemigroup[A]
+  implicit def orSetSemigroup[A]: Semigroup[ORSet[A]] = new ORSetSemigroup[A]
 
 }

@@ -14,7 +14,7 @@ object GCounter {
     GCounter(num.toLong)
   }
 
-  implicit object GCounterSemigroup extends Semigroup[GCounter] {
+  object GCounterSemigroup extends Semigroup[GCounter] {
     def plus(l: GCounter, r: GCounter): GCounter = {
       GCounter(max(l.num, r.num))
     }
@@ -25,7 +25,8 @@ object GCounter {
     def plus(l: GCounter, r: GCounter): GCounter = semi.plus(l, r)
   }
 
-  implicit def implicitMonoid = new GCounterMonoid()
+  implicit val gcounterSemigroup: Semigroup[GCounter] = GCounterSemigroup
+  implicit val gcounterMonoid: Monoid[GCounter] = new GCounterMonoid
 
 }
 

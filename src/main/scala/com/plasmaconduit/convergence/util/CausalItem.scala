@@ -14,6 +14,6 @@ object CausalItem {
     }
   }
 
-  implicit def implicitOrdering[A] = new CausalItemOrdering[A]
+  implicit def causalItemOrdering[A]: Ordering[CausalItem[A]] = new CausalItemOrdering[A]
 
 }

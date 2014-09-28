@@ -27,18 +27,6 @@ object LWWSet {
     LWWSet(map)
   }
 
-  def apply[A](items: Seq[A]): LWWSet[A] = {
-    apply(items.map(n => CausalItem(n)))
-  }
-
-  def apply[A](items: CausalItem[A]*): LWWSet[A] = {
-    LWWSet(items:_*)
-  }
-
-  def apply[A](items: A*): LWWSet[A] = {
-    LWWSet(items.map(n => CausalItem(n)))
-  }
-
   class LWWSetSemiGroup[A] extends Semigroup[LWWSet[A]] {
     def plus(l: LWWSet[A], r: LWWSet[A]): LWWSet[A] = {
       LWWSet(r.map + l.map)
@@ -52,8 +40,8 @@ object LWWSet {
     }
   }
 
-  implicit def implicitSemigroup[A] = new LWWSetSemiGroup[A]
-  implicit def implicitMonoid[A] = new LWWSetMonoid[A]
+  implicit def lwwSetSemigrouop[A]: Semigroup[LWWSet[A]] = new LWWSetSemiGroup[A]
+  implicit def lwwSetMonoid[A]: Monoid[LWWSet[A]] = new LWWSetMonoid[A]
 
 }
 
